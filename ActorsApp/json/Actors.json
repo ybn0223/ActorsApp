@@ -1,0 +1,213 @@
+[
+  {
+    "id": 1,
+    "name": "Tom Hanks",
+    "description": "Award-winning actor known for his versatile roles.",
+    "age": 65,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1956-07-09",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Tom%20Hanks.jpg",
+    "relationshipStatus": "married",
+    "hobbies": ["reading", "traveling", "collecting vintage typewriters"],
+    "extraInfo": {
+      "id": 101,
+      "pet": "dog",
+      "hasChildren": true,
+      "children": ["Colin Hanks", "Elizabeth Hanks"],
+      "favoriteDish": "Pizza",
+      "awards": "2 Academy Awards, 4 Golden Globe Awards",
+      "netWorth": 350000000,
+      "hasOscar": true
+    }
+  },
+  {
+    "id": 2,
+    "name": "Meryl Streep",
+    "description": "Acclaimed actress with numerous awards.",
+    "age": 72,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1949-06-22",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Meryl%20Streep.jpg",
+    "relationshipStatus": "married",
+    "hobbies": ["playing music", "gardening", "philanthropy"],
+    "extraInfo": {
+      "id": 102,
+      "pets": [],
+      "children": [],
+      "favoriteDish": "Italian cuisine",
+      "awards": "3 Academy Awards, 9 Golden Globe Awards",
+      "netWorth": 160000000,
+      "hasOscar": true
+    }
+  },
+  {
+    "id": 3,
+    "name": "Leonardo DiCaprio",
+    "description": "Renowned actor and environmental activist.",
+    "age": 48,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1974-11-11",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Leonardo%20DiCaprio.jpg",
+    "relationshipStatus": "single",
+    "hobbies": ["flying planes", "scuba diving", "philanthropy"],
+    "extraInfo": {
+      "id": 103,
+      "pets": "turtle",
+      "children": [],
+      "favoriteDish": "Sushi",
+      "awards": "1 Academy Award, 1 BAFTA Award",
+      "netWorth": 260000000,
+      "hasOscar": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "Jennifer Lawrence",
+    "description": "Talented actress known for her charismatic performances.",
+    "age": 32,
+    "nationality": "American",
+    "isActive": false,
+    "birthdate": "1990-08-15",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Jennifer%20Lawrence.jpg",
+    "relationshipStatus": "single",
+    "hobbies": ["painting", "reading", "archery"],
+    "extraInfo": {
+      "id": 104,
+      "pets": [],
+      "children": [],
+      "favoriteDish": "Mexican cuisine",
+      "awards": "1 Academy Award, 1 Golden Globe Award",
+      "netWorth": 160000000,
+      "hasOscar": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "Keanu Reeves",
+    "description": "Beloved actor and philanthropist.",
+    "age": 57,
+    "nationality": "Canadian",
+    "isActive": true,
+    "birthdate": "1964-09-02",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Keanu%20Reeves.jpg",
+    "relationshipStatus": "single",
+    "hobbies": ["motorcycling", "playing bass guitar", "volunteering"],
+    "extraInfo": {
+      "id": 105,
+      "pets": "cat",
+      "children": ["Ava Archer Syme-Reeves"],
+      "favoriteDish": "Japanese cuisine",
+      "awards": "4 MTV Movie Awards",
+      "netWorth": 360000000,
+      "hasOscar": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "Scarlett Johansson",
+    "description": "Versatile actress and singer.",
+    "age": 37,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1984-11-22",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Scarlett%20Johansson.jpg",
+    "relationshipStatus": "married",
+    "hobbies": ["cooking", "drawing", "singing"],
+    "extraInfo": {
+      "id": 106,
+      "pets": [],
+      "children": ["Rose Dorothy Dauriac", "Cosmo"],
+      "favoriteDish": "Italian cuisine",
+      "awards": "1 BAFTA Award, 1 Tony Award",
+      "netWorth": 165000000,
+      "hasOscar": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "Robert Downey Jr.",
+    "description": "Iconic actor and producer.",
+    "age": 56,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1965-04-04",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Robert%20Downey%20Jr..jpg",
+    "relationshipStatus": "married",
+    "hobbies": ["martial arts", "collecting cars", "technology"],
+    "extraInfo": {
+      "id": 107,
+      "pets": "dog",
+      "children": ["Exton Elias Downey", "Avri Roel Downey"],
+      "favoriteDish": "Sushi",
+      "awards": "3 Golden Globe Awards",
+      "netWorth": 300000000,
+      "hasOscar": false
+    }
+  },
+  {
+    "id": 8,
+    "name": "Angelina Jolie",
+    "description": "Actress, filmmaker, and humanitarian.",
+    "age": 47,
+    "nationality": "American",
+    "isActive": true,
+    "birthdate": "1975-06-04",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Angelina%20Jolie.jpg",
+    "relationshipStatus": "divorced",
+    "hobbies": ["humanitarian work", "piloting", "writing"],
+    "extraInfo": {
+      "id": 108,
+      "pets": [],
+      "children": ["Maddox", "Pax", "Zahara", "Shiloh", "Knox", "Vivienne"],
+      "favoriteDish": "Thai cuisine",
+      "awards": "1 Academy Award, 3 Golden Globe Awards",
+      "netWorth": 120000000,
+      "hasOscar": true
+    }
+  },
+  {
+    "id": 9,
+    "name": "Chris Hemsworth",
+    "description": "Australian actor and Marvel superhero.",
+    "age": 39,
+    "nationality": "Australian",
+    "isActive": true,
+    "birthdate": "1983-08-11",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Chris%20Hemsworth.jpg",
+    "relationshipStatus": "married",
+    "hobbies": ["surfing", "playing video games", "fitness"],
+    "extraInfo": {
+      "id": 109,
+      "pets": "horse",
+      "children": [],
+      "favoriteDish": "Australian barbecue",
+      "awards": "2 People's Choice Awards",
+      "netWorth": 130000000,
+      "hasOscar": false
+    }
+  },
+  {
+    "id": 10,
+    "name": "Emma Watson",
+    "description": "British actress and UN Women Goodwill Ambassador.",
+    "age": 32,
+    "nationality": "British",
+    "isActive": true,
+    "birthdate": "1990-04-15",
+    "profileImageUrl": "https://raw.githubusercontent.com/ybn0223/Actors-terminal-app/main/ActorTerminalApp/ActorImages/Emma%20Watson.jpg",
+    "relationshipStatus": "single",
+    "hobbies": ["reading", "advocacy", "dancing"],
+    "extraInfo": {
+      "id": 110,
+      "pets": "rabbit",
+      "children": [],
+      "favoriteDish": "British cuisine",
+      "awards": "4 Teen Choice Awards, 1 MTV Movie Award",
+      "netWorth": 80,
+      "hasOscar": false
+    }
+  }
+]
