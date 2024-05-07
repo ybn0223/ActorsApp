@@ -1,8 +1,9 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import {connect, Actors} from "./database";
+import {connect, Actors, ActorsCollection} from "./database";
 import { Actor } from "./types";
+import {Collection, MongoClient} from "mongodb";
 
 
 const ActorsJson = require("./json/Actors.json");
@@ -19,6 +20,13 @@ app.set('views', path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3000);
 
+async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
+    return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
+}
+function sortOrder(sortParam: string): number {
+    return sortParam.toLowerCase() === "asc" ? 1 : -1;
+}
+
 app.get("/", async (req, res) => {
     const actors : Actor[] = await Actors();
 
@@ -31,27 +39,31 @@ app.get("/", async (req, res) => {
     let sortRelationshipStatus: any = req.query.sortRelationshipStatus ?? "";
 
     // Sort the actors array based on the sort parameters
-    let sortedActors = [...actors];
-
+    //SORTEREN VIA MONGODB
+    //OOK OBJECTID VAN MONGODB GEBRUIKEN
+    // ZEKER LOGIN EN EDIT
+    var sortedActors : Actor[] = await Actors();
+    var actorDetails;
+    
     if (sortName) {
-        sortedActors = sortedActors.sort((a, b) => (sortName === 'asc') ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+        sortedActors = await sortActors("name", sortOrder(sortName));
     } else if (sortAge) {
-        sortedActors = sortedActors.sort((a, b) => (sortAge === 'asc') ? a.age - b.age : b.age - a.age);
+        sortedActors = await sortActors("age", sortOrder(sortAge));
     } else if (sortBirthdate) {
-        sortedActors = sortedActors.sort((a, b) => (sortBirthdate === 'asc') ? new Date(a.birthdate).getTime() - new Date(b.birthdate).getTime() : new Date(b.birthdate).getTime() - new Date(a.birthdate).getTime());
+        sortedActors = await sortActors("birthdate", sortOrder(sortBirthdate));
     } else if (sortNationality) {
-        sortedActors = sortedActors.sort((a, b) => (sortNationality === 'asc') ? a.nationality.localeCompare(b.nationality) : b.nationality.localeCompare(a.nationality));
+        sortedActors = await sortActors("nationality", sortOrder(sortName));
     } else if (sortIsActive) {
-        sortedActors = sortedActors.sort((a, b) => (sortIsActive === 'asc') ? (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1) : (a.isActive === b.isActive ? 0 : a.isActive ? 1 : -1));
+        sortedActors = await sortActors("isActive", sortOrder(sortIsActive));
     } else if (sortRelationshipStatus) {
-        sortedActors = sortedActors.sort((a, b) => (sortRelationshipStatus === 'asc') ? a.relationshipStatus.localeCompare(b.relationshipStatus) : b.relationshipStatus.localeCompare(a.relationshipStatus));
+        sortedActors = await sortActors("relationshipStatus", sortOrder(sortRelationshipStatus));
     }
-      else if (detailId) {
-        var actorDetails = actors.find((a) => a.id === detailId)
-    }
+    else if (detailId) {
+        actorDetails = await ActorsCollection.findOne({ _id: detailId });
+    }    
 
     res.render("index", {
-        actors: sortedActors,
+        actors : sortedActors,
         actorDetails
     });
 });
