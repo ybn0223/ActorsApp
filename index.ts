@@ -1,4 +1,5 @@
-import express, { Express } from "express";
+import {Express} from "express";
+import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import {connect, Actors, ActorsCollection} from "./database";
