@@ -1,5 +1,4 @@
-import {Express} from "express";
-import express from "express";
+import express from 'express';
 import dotenv from "dotenv";
 import path from "path";
 import {connect, Actors, ActorsCollection} from "./database";
@@ -11,7 +10,7 @@ import {Collection, MongoClient} from "mongodb";
 
 dotenv.config();
 
-const app : Express = express();
+const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -19,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 10000);
 
 async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
     return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
