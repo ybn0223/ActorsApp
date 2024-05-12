@@ -11,14 +11,15 @@ import {Collection, MongoClient} from "mongodb";
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
+app.set("port", port);
 
-app.set("port", 10000);
 
 async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
     return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
@@ -69,8 +70,12 @@ app.get("/", async (req, res) => {
 });
 
 
-
-app.listen(app.get("port"), async() => {
+const server = app.listen(port, async() =>{
     await connect();
-    console.log("Server started on http://localhost:" + app.get('port'));
-});
+    console.log(app.get('port'));
+})
+
+// app.listen(app.get("port"), async() => {
+//     await connect();
+//     console.log("Server started on http://localhost:" + app.get('port'));
+// });
