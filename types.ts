@@ -13,7 +13,7 @@ export interface Actor{
     extraInfo: ExtraInfo
 }
 
-interface ExtraInfo{
+export interface ExtraInfo{
     id: number,
     pets?: string[], // ? hier "geen" zetten in Site
     children?: string[],

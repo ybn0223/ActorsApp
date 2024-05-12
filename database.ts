@@ -2,8 +2,8 @@ import {Collection, MongoClient} from "mongodb";
 import { Actor } from "./types";
 import dotenv from "dotenv";
 
-const ActorsJson = require("./json/Actors.json");
-const actorsjson : Actor[] = ActorsJson;
+// const ActorsJson = require("./json/Actors.json");
+// const actorsjson : Actor[] = ActorsJson;
 //alle database gerelateerde code komt hier te staan
 
 
@@ -14,11 +14,11 @@ const client = new MongoClient(uri);
 export const ActorsCollection: Collection<Actor> = client.db("webdevelopment_Project").collection<Actor>("actors");
 
 
-async function seed(){
-    if (await ActorsCollection.countDocuments() === 0) {
-        await ActorsCollection.insertMany(actorsjson);
-    }
-}
+// async function seed(){
+//     if (await ActorsCollection.countDocuments() === 0) {
+//         await ActorsCollection.insertMany(actorsjson);
+//     }
+// }
 
 export async function Actors() {
 
@@ -31,7 +31,7 @@ async function connect(){ //start connectie
     try {
         await client.connect();
         console.log("Connection with database started");
-        await seed();
+        // await seed();
         process.on("SIGNINT", exit);
     } catch (e) {
         console.error(e);

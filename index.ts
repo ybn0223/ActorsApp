@@ -6,7 +6,7 @@ import { Actor } from "./types";
 import {Collection, MongoClient} from "mongodb";
 
 
-const ActorsJson = require("./json/Actors.json");
+// const ActorsJson = require("./json/Actors.json");
 
 dotenv.config();
 
