@@ -12,12 +12,12 @@
     "hobbies": ["reading", "traveling", "collecting vintage typewriters"],
     "extraInfo": {
       "id": 101,
-      "pet": "dog",
+      "pets": ["dog"],
       "hasChildren": true,
       "children": ["Colin Hanks", "Elizabeth Hanks"],
       "favoriteDish": "Pizza",
-      "awards": "2 Academy Awards, 4 Golden Globe Awards",
-      "netWorth": 350000000,
+      "awards": ["2 Academy Awards", "4 Golden Globe Awards"],
+      "netWorth": "$350 million",
       "hasOscar": true
     }
   },
@@ -37,8 +37,8 @@
       "pets": [],
       "children": [],
       "favoriteDish": "Italian cuisine",
-      "awards": "3 Academy Awards, 9 Golden Globe Awards",
-      "netWorth": 160000000,
+      "awards": ["3 Academy Awards", "9 Golden Globe Awards"],
+      "netWorth": "$100 million",
       "hasOscar": true
     }
   },
@@ -55,11 +55,11 @@
     "hobbies": ["flying planes", "scuba diving", "philanthropy"],
     "extraInfo": {
       "id": 103,
-      "pets": "turtle",
+      "pets": ["turtle"],
       "children": [],
       "favoriteDish": "Sushi",
-      "awards": "1 Academy Award, 1 BAFTA Award",
-      "netWorth": 260000000,
+      "awards": ["1 Academy Award", "1 BAFTA Award"],
+      "netWorth": "$300 million",
       "hasOscar": true
     }
   },
@@ -79,8 +79,8 @@
       "pets": [],
       "children": [],
       "favoriteDish": "Mexican cuisine",
-      "awards": "1 Academy Award, 1 Golden Globe Award",
-      "netWorth": 160000000,
+      "awards": ["1 Academy Award", "1 Golden Globe Award"],
+      "netWorth": "$160 million",
       "hasOscar": true
     }
   },
@@ -97,11 +97,11 @@
     "hobbies": ["motorcycling", "playing bass guitar", "volunteering"],
     "extraInfo": {
       "id": 105,
-      "pets": "cat",
+      "pets": ["cat"],
       "children": ["Ava Archer Syme-Reeves"],
       "favoriteDish": "Japanese cuisine",
-      "awards": "4 MTV Movie Awards",
-      "netWorth": 360000000,
+      "awards": ["4 MTV Movie Awards"],
+      "netWorth": "$380 million",
       "hasOscar": false
     }
   },
@@ -121,8 +121,8 @@
       "pets": [],
       "children": ["Rose Dorothy Dauriac", "Cosmo"],
       "favoriteDish": "Italian cuisine",
-      "awards": "1 BAFTA Award, 1 Tony Award",
-      "netWorth": 165000000,
+      "awards": ["1 BAFTA Award", "1 Tony Award"],
+      "netWorth": "$165 million",
       "hasOscar": false
     }
   },
@@ -139,11 +139,11 @@
     "hobbies": ["martial arts", "collecting cars", "technology"],
     "extraInfo": {
       "id": 107,
-      "pets": "dog",
+      "pets": ["dog"],
       "children": ["Exton Elias Downey", "Avri Roel Downey"],
       "favoriteDish": "Sushi",
-      "awards": "3 Golden Globe Awards",
-      "netWorth": 300000000,
+      "awards": ["3 Golden Globe Awards"],
+      "netWorth": "$300 million",
       "hasOscar": false
     }
   },
@@ -163,8 +163,8 @@
       "pets": [],
       "children": ["Maddox", "Pax", "Zahara", "Shiloh", "Knox", "Vivienne"],
       "favoriteDish": "Thai cuisine",
-      "awards": "1 Academy Award, 3 Golden Globe Awards",
-      "netWorth": 120000000,
+      "awards": ["1 Academy Award", "3 Golden Globe Awards"],
+      "netWorth": "$120 million",
       "hasOscar": true
     }
   },
@@ -181,11 +181,11 @@
     "hobbies": ["surfing", "playing video games", "fitness"],
     "extraInfo": {
       "id": 109,
-      "pets": "horse",
+      "pets": ["horse"],
       "children": [],
       "favoriteDish": "Australian barbecue",
-      "awards": "2 People's Choice Awards",
-      "netWorth": 130000000,
+      "awards": ["2 People's Choice Awards"],
+      "netWorth": "$130 million",
       "hasOscar": false
     }
   },
@@ -202,11 +202,11 @@
     "hobbies": ["reading", "advocacy", "dancing"],
     "extraInfo": {
       "id": 110,
-      "pets": "rabbit",
+      "pets": ["rabbit"],
       "children": [],
       "favoriteDish": "British cuisine",
-      "awards": "4 Teen Choice Awards, 1 MTV Movie Award",
-      "netWorth": 80,
+      "awards": ["4 Teen Choice Awards", "1 MTV Movie Award"],
+      "netWorth": "$85 million",
       "hasOscar": false
     }
   }

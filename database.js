@@ -13,22 +13,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.exit = exports.connect = exports.Actors = exports.ActorsCollection = void 0;
+exports.exit = exports.connect = exports.getActorById = exports.Actors = exports.seed = exports.ActorsCollection = void 0;
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
-// const ActorsJson = require("./json/Actors.json");
-// const actorsjson : Actor[] = ActorsJson;
-//alle database gerelateerde code komt hier te staan
+const ActorsJson = require("./json/Actors.json");
+const actorsjson = ActorsJson;
+// alle database gerelateerde code komt hier te staan
 dotenv_1.default.config();
 const uri = (_a = process.env.MONGODB_URI) !== null && _a !== void 0 ? _a : "mongodb://localhost:27017";
 console.log(uri);
 const client = new mongodb_1.MongoClient(uri);
 exports.ActorsCollection = client.db("webdevelopment_Project").collection("actors");
-// async function seed(){
-//     if (await ActorsCollection.countDocuments() === 0) {
-//         await ActorsCollection.insertMany(actorsjson);
-//     }
-// }
+function seed() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if ((yield exports.ActorsCollection.countDocuments()) === 0) {
+            yield exports.ActorsCollection.insertMany(actorsjson);
+            console.log("seeding DB");
+        }
+    });
+}
+exports.seed = seed;
 function Actors() {
     return __awaiter(this, void 0, void 0, function* () {
         let cursor = client.db("webdevelopment_Project").collection("actors").find({});
@@ -37,12 +41,18 @@ function Actors() {
     });
 }
 exports.Actors = Actors;
+function getActorById(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return exports.ActorsCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+    });
+}
+exports.getActorById = getActorById;
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield client.connect();
             console.log("Connection with database started");
-            // await seed();
+            yield seed();
             process.on("SIGNINT", exit);
         }
         catch (e) {

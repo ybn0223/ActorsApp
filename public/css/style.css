@@ -146,6 +146,10 @@ table.table td i {
   margin-top: 10px;
   font-size: 13px;
 }
-#detailModal {
-  z-index: 1050; /* Adjust the z-index value as needed */
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal-dialog {
+  z-index: 1050 !important;
 }

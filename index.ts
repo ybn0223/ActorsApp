@@ -1,12 +1,9 @@
 import express from 'express';
 import dotenv from "dotenv";
 import path from "path";
-import {connect, Actors, ActorsCollection} from "./database";
+import { connect, Actors, ActorsCollection, getActorById, seed } from "./database";
 import { Actor } from "./types";
-import {Collection, MongoClient} from "mongodb";
-
-
-// const ActorsJson = require("./json/Actors.json");
+import { Collection, MongoClient, ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -23,13 +20,12 @@ app.set("port", process.env.PORT || 10000);
 async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
     return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
 }
+
 function sortOrder(sortParam: string): number {
     return sortParam.toLowerCase() === "asc" ? 1 : -1;
 }
 
 app.get("/", async (req, res) => {
-    const actors : Actor[] = await Actors();
-
     let detailId: any = req.query.id ?? "";
     let sortName: any = req.query.sortName ?? "";
     let sortAge: any = req.query.sortAge ?? "";
@@ -38,13 +34,9 @@ app.get("/", async (req, res) => {
     let sortIsActive: any = req.query.sortIsActive ?? "";
     let sortRelationshipStatus: any = req.query.sortRelationshipStatus ?? "";
 
-    // Sort the actors array based on the sort parameters
-    //SORTEREN VIA MONGODB
-    //OOK OBJECTID VAN MONGODB GEBRUIKEN
-    // ZEKER LOGIN EN EDIT
-    var sortedActors : Actor[] = await Actors();
+    var sortedActors: Actor[] = await Actors();
     var actorDetails;
-    
+
     if (sortName) {
         sortedActors = await sortActors("name", sortOrder(sortName));
     } else if (sortAge) {
@@ -57,20 +49,159 @@ app.get("/", async (req, res) => {
         sortedActors = await sortActors("isActive", sortOrder(sortIsActive));
     } else if (sortRelationshipStatus) {
         sortedActors = await sortActors("relationshipStatus", sortOrder(sortRelationshipStatus));
+    } else if (detailId) {
+        actorDetails = await ActorsCollection.findOne({ _id: new ObjectId(detailId) });
     }
-    else if (detailId) {
-        actorDetails = await ActorsCollection.findOne({ _id: detailId });
-    }    
 
     res.render("index", {
-        actors : sortedActors,
+        actors: sortedActors,
         actorDetails
     });
 });
 
+app.get('/actor/:id', async (req, res) => {
+    try {
+        const actor = await getActorById(req.params.id);
+        if (actor) {
+            res.render('actorDetail', { actor });
+        } else {
+            res.status(404).send('Actor not found');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
 
+app.get('/editActor/:id', async (req, res) => {
+    try {
+        const actor = await getActorById(req.params.id);
+        if (actor) {
+            res.render('editActorInfo', { actor });
+        } else {
+            res.status(404).send('Actor not found');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
 
-app.listen(app.get("port"), async() => {
+app.post('/saveEditActor', async (req, res) => {
+    try {
+        // Extract data from the request body
+        const { id, name, description, age, nationality, isActive, birthdate, relationshipStatus, hobbies, extraInfo } = req.body;
+
+        // Validate the input
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send('Invalid actor ID.');
+        }
+
+        // Parse and validate age
+        const parsedAge = Number(age);
+        if (isNaN(parsedAge)) {
+            return res.status(400).send('Invalid age type.');
+        }
+
+        // Parse and validate isActive
+        const parsedIsActive = (isActive === 'true');
+
+        // Validate basic string fields
+        if (typeof name !== 'string' || typeof description !== 'string' || typeof nationality !== 'string' || typeof relationshipStatus !== 'string' || typeof birthdate !== 'string') {
+            return res.status(400).send('Invalid input types for basic fields.');
+        }
+
+        // Validate extraInfo
+        const { pets, children, favoriteDish, awards, netWorth, hasOscar, id: extraInfoId } = extraInfo;
+
+        if (isNaN(Number(extraInfoId))) {
+            return res.status(400).send('Invalid extraInfo ID.');
+        }
+
+        if (typeof pets !== 'string' || typeof children !== 'string' || typeof awards !== 'string') {
+            return res.status(400).send('Invalid extraInfo types.');
+        }
+
+        if (typeof favoriteDish !== 'string' || typeof netWorth !== 'string' || (hasOscar !== 'true' && hasOscar !== 'false')) {
+            return res.status(400).send('Invalid extraInfo properties.');
+        }
+
+        // Parse the comma-separated strings into arrays
+        const parsedHobbies = hobbies.split(',').map((hobby: string) => hobby.trim());
+        const parsedPets = pets.split(',').map((pet: string) => pet.trim());
+        const parsedChildren = children.split(',').map((child: string) => child.trim());
+        const parsedAwards = awards.split(',').map((award: string) => award.trim());
+
+        // Parse and validate hasOscar
+        const parsedHasOscar = (hasOscar === 'true');
+
+        // Update actor information in the database
+        const result = await ActorsCollection.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    name,
+                    description,
+                    age: parsedAge,
+                    nationality,
+                    isActive: parsedIsActive,
+                    birthdate,
+                    relationshipStatus,
+                    hobbies: parsedHobbies,
+                    extraInfo: {
+                        id: Number(extraInfoId),
+                        pets: parsedPets,
+                        children: parsedChildren,
+                        favoriteDish,
+                        awards: parsedAwards,
+                        netWorth,
+                        hasOscar: parsedHasOscar
+                    }
+                }
+            }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).send('Actor not found or no changes made.');
+        }
+
+        res.redirect('/?message=Actor%20information%20updated%20successfully.&status=success');
+    } catch (error) {
+        console.error('Error updating actor information:', error);
+        res.status(500).send('Internal server error.');
+    }
+});
+
+app.delete('/deleteActor/:id', async (req, res) => {
+    try {
+        const actorId = req.params.id;
+        if (!ObjectId.isValid(actorId)) {
+            return res.status(400).json({ success: false, message: 'Invalid actor ID.' });
+        }
+
+        const result = await ActorsCollection.deleteOne({ _id: new ObjectId(actorId) });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ success: false, message: 'Actor not found.' });
+        }
+
+        res.json({ success: true, message: 'Actor deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting actor:', error);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+});
+
+app.post('/seedDatabase', async (req, res) => {
+    try {
+        await ActorsCollection.deleteMany();
+        await seed();
+    } catch (error) {
+        console.error('Error seeding database:', error);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Database seeded successfully.' });
+});
+
+app.listen(app.get("port"), async () => {
     await connect();
     console.log("Server started on http://localhost:" + app.get('port'));
 });

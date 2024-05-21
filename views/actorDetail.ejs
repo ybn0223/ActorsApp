@@ -1,0 +1,62 @@
+<div>
+  <p><strong>Name:</strong> <%= actor.name %></p>
+  <p><strong>Description:</strong> <%= actor.description%></p>
+<p><strong>Hobbies:</strong>
+    <% if (actor.hobbies && actor.hobbies.length > 0) { %>
+      <% for (let i = 0; i < actor.hobbies.length; i++) { %>
+        <% if (i < actor.hobbies.length-1) { %>
+          <span><%= actor.hobbies[i] %>, </span>
+        <% } else{ %>
+          <span><%= actor.hobbies[i] %></span>
+       <% } %>        
+      <% } %>
+    <% } else { %>
+      <span>Geen</span>
+    <% } %>
+  </p>  <p><strong>Pets:</strong>
+    <% if (actor.extraInfo.pets && actor.extraInfo.pets.length > 0) { %>
+      <% for (let i = 0; i < actor.extraInfo.pets.length; i++) { %>
+        <% if (i < actor.extraInfo.pets.length-1) { %>
+          <span><%= actor.extraInfo.pets[i] %>, </span>
+        <% } else{ %>
+          <span><%= actor.extraInfo.pets[i] %></span>
+       <% } %>        
+      <% } %>
+    <% } else { %>
+      <span>Geen</span>
+    <% } %>
+  </p>
+  <p><strong>Children:</strong>
+    <% if (actor.extraInfo.children && actor.extraInfo.children.length > 0) { %>
+      <% for (let i = 0; i < actor.extraInfo.children.length; i++) { %>
+        <% if (i < actor.extraInfo.children.length-1) { %>
+          <span><%= actor.extraInfo.children[i] %>, </span>
+        <% } else{ %>
+          <span><%= actor.extraInfo.children[i] %></span>
+       <% } %>        
+      <% } %>
+    <% } else { %>
+      <span>Geen</span>
+    <% } %>
+  </p>
+  <p><strong>Favorite dish:</strong> <%= actor.extraInfo.favoriteDish %></p>
+  <p><strong>Children:</strong>
+    <% if (actor.extraInfo.awards && actor.extraInfo.awards.length > 0) { %>
+      <% for (let i = 0; i < actor.extraInfo.awards.length; i++) { %>
+        <% if (i < actor.extraInfo.awards.length-1) { %>
+          <span><%= actor.extraInfo.awards[i] %>, </span>
+        <% } else{ %>
+          <span><%= actor.extraInfo.awards[i] %></span>
+       <% } %>        
+      <% } %>
+    <% } else { %>
+      <span>Geen</span>
+    <% } %>
+  </p>
+    <p><strong>Has Oscar:</strong>
+      <% if (actor.extraInfo.hasOscar) { %>
+        <span>Yes</span>
+      <% } else { %>
+        <span>No</span>
+      <% } %></p></p>
+</div>

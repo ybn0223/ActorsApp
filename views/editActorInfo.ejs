@@ -1,0 +1,67 @@
+<form id="editActorForm" action="/saveEditActor" method="post">
+    <input type="hidden" name="id" value="<%= actor._id %>">
+    <input type="hidden" name="extraInfo[id]" value="<%= actor.extraInfo.id %>">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= actor.name %>" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" name="description" value="<%= actor.description %>" required>
+    </div>
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" class="form-control" id="age" name="age" value="<%= actor.age %>" required>
+    </div>
+    <div class="form-group">
+        <label for="nationality">Nationality:</label>
+        <input type="text" class="form-control" id="nationality" name="nationality" value="<%= actor.nationality %>" required>
+    </div>
+    <div class="form-group">
+        <label for="isActive">Active:</label>
+        <select class="form-control" id="isActive" name="isActive" required>
+            <option value="true" <%= actor.isActive ? 'selected' : '' %>>Yes</option>
+            <option value="false" <%= !actor.isActive ? 'selected' : '' %>>No</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" class="form-control" id="birthdate" name="birthdate" value="<%= actor.birthdate %>" required>
+    </div>
+    <div class="form-group">
+        <label for="relationshipStatus">Relationship Status:</label>
+        <input type="text" class="form-control" id="relationshipStatus" name="relationshipStatus" value="<%= actor.relationshipStatus %>" required>
+    </div>
+    <div class="form-group">
+        <label for="hobbies">Hobbies (comma separated):</label>
+        <input type="text" class="form-control" id="hobbies" name="hobbies" value="<%= actor.hobbies.join(', ') %>" required>
+    </div>
+    <div class="form-group">
+        <label for="pets">Pets (comma separated):</label>
+        <input type="text" class="form-control" id="pets" name="extraInfo[pets]" value="<%= actor.extraInfo.pets.join(', ') %>">
+    </div>
+    <div class="form-group">
+        <label for="children">Children (comma separated):</label>
+        <input type="text" class="form-control" id="children" name="extraInfo[children]" value="<%= actor.extraInfo.children.join(', ') %>">
+    </div>
+    <div class="form-group">
+        <label for="favoriteDish">Favorite Dish:</label>
+        <input type="text" class="form-control" id="favoriteDish" name="extraInfo[favoriteDish]" value="<%= actor.extraInfo.favoriteDish %>" required>
+    </div>
+    <div class="form-group">
+        <label for="awards">Awards (comma separated):</label>
+        <input type="text" class="form-control" id="awards" name="extraInfo[awards]" value="<%= actor.extraInfo.awards.join(', ') %>">
+    </div>
+    <div class="form-group">
+        <label for="netWorth">Net Worth:</label>
+        <input type="text" class="form-control" id="netWorth" name="extraInfo[netWorth]" value="<%= actor.extraInfo.netWorth %>" required>
+    </div>
+    <div class="form-group">
+        <label for="hasOscar">Has Oscar:</label>
+        <select class="form-control" id="hasOscar" name="extraInfo[hasOscar]" required>
+            <option value="true" <%= actor.extraInfo.hasOscar ? 'selected' : '' %>>Yes</option>
+            <option value="false" <%= !actor.extraInfo.hasOscar ? 'selected' : '' %>>No</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+</form>

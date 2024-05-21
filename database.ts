@@ -1,10 +1,10 @@
-import {Collection, MongoClient} from "mongodb";
+import {Collection, MongoClient, ObjectId} from "mongodb";
 import { Actor } from "./types";
 import dotenv from "dotenv";
 
-// const ActorsJson = require("./json/Actors.json");
-// const actorsjson : Actor[] = ActorsJson;
-//alle database gerelateerde code komt hier te staan
+const ActorsJson = require("./json/Actors.json");
+const actorsjson : Actor[] = ActorsJson;
+// alle database gerelateerde code komt hier te staan
 
 
 dotenv.config();
@@ -14,11 +14,12 @@ const client = new MongoClient(uri);
 export const ActorsCollection: Collection<Actor> = client.db("webdevelopment_Project").collection<Actor>("actors");
 
 
-// async function seed(){
-//     if (await ActorsCollection.countDocuments() === 0) {
-//         await ActorsCollection.insertMany(actorsjson);
-//     }
-// }
+export async function seed(){
+    if (await ActorsCollection.countDocuments() === 0) {
+        await ActorsCollection.insertMany(actorsjson);
+        console.log("seeding DB");
+    }
+}
 
 export async function Actors() {
 
@@ -27,11 +28,15 @@ export async function Actors() {
     return actors;
 }
 
+export async function getActorById(id: string) {
+    return ActorsCollection.findOne({_id: new ObjectId(id)});
+}
+
 async function connect(){ //start connectie
     try {
         await client.connect();
         console.log("Connection with database started");
-        // await seed();
+        await seed();
         process.on("SIGNINT", exit);
     } catch (e) {
         console.error(e);

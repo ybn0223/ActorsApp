@@ -19,6 +19,6 @@ export interface ExtraInfo{
     children?: string[],
     favoriteDish: string,
     awards?: Array<string>,
-    netWorth: number,
+    netWorth: string,
     hasOscar: boolean
 }
