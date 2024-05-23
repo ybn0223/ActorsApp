@@ -1,6 +1,18 @@
 <div>
   <p><strong>Name:</strong> <%= actor.name %></p>
   <p><strong>Description:</strong> <%= actor.description%></p>
+  <p><strong>Age:</strong> <%= actor.age%></p>
+  <p><strong>Nationality:</strong> <%= actor.nationality%></p>
+  <p><strong>Still active:</strong> 
+    <% if (actor.isActive) { %>
+      <td class="text-center align-middle"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="8" style="color: green;"/>
+        </svg> </td>
+ <% } else { %>
+      <td class="text-center align-middle"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+          <circle cx="8" cy="8" r="8" style="color: red;"/>
+        </svg> </td>
+  <% } %></p>
 <p><strong>Hobbies:</strong>
     <% if (actor.hobbies && actor.hobbies.length > 0) { %>
       <% for (let i = 0; i < actor.hobbies.length; i++) { %>
