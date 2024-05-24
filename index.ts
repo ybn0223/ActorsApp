@@ -4,8 +4,21 @@ import path from "path";
 import { connect, Actors, ActorsCollection, getActorById, seed } from "./database";
 import { Actor } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
+import session from "express-session";
+import authRoutes from "./routes/auth";
+
 
 dotenv.config();
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+const store = new MongoDBStore({
+    uri: process.env.MONGODB_URI || "mongodb://localhost:27017/lego",
+    collection: 'sessions'
+  });
+
+store.on('error', function(error : any) {
+    console.error(error);
+});
 
 const app = express();
 
@@ -15,17 +28,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  }));
+
 app.set("port", process.env.PORT || 10000);
 
 async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
     return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
 }
-console.log("test");
+
 function sortOrder(sortParam: string): number {
     return sortParam.toLowerCase() === "asc" ? 1 : -1;
 }
 
+// verander package.json start script naar     "start": "tsc && node index.js "
 app.get("/", async (req, res) => {
+
+    res.render("login");
+})
+
+app.use(authRoutes);
+
+app.get("/signup", async(req, res) =>{
+
+    res.render("signup");
+})
+
+app.get("/home", async (req, res) => {
     let detailId: any = req.query.id ?? "";
     let sortName: any = req.query.sortName ?? "";
     let sortAge: any = req.query.sortAge ?? "";
@@ -53,7 +86,12 @@ app.get("/", async (req, res) => {
         actorDetails = await ActorsCollection.findOne({ _id: new ObjectId(detailId) });
     }
 
-    res.render("index", {
+    let user = req.session.user ?? null;
+    if (user === null) {
+        res.redirect("/")
+    }
+
+    res.render("home", {
         actors: sortedActors,
         actorDetails
     });
@@ -169,6 +207,8 @@ app.post('/saveEditActor', async (req, res) => {
         res.status(500).send('Internal server error.');
     }
 });
+
+
 
 app.delete('/deleteActor/:id', async (req, res) => {
     try {

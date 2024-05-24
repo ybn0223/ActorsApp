@@ -22,3 +22,9 @@ export interface ExtraInfo{
     netWorth: string,
     hasOscar: boolean
 }
+
+export interface IUser{
+    username: string,
+    password: string,
+    isAdmin: boolean
+}
