@@ -6,6 +6,7 @@ import { Actor } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import session from "express-session";
 import authRoutes from "./routes/auth";
+import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
 
 dotenv.config();
@@ -46,19 +47,19 @@ function sortOrder(sortParam: string): number {
 }
 
 // verander package.json start script naar     "start": "tsc && node index.js "
-app.get("/", async (req, res) => {
+app.get("/", ensureNotAuthenticated, async (req, res) => {
 
     res.render("login");
 })
 
 app.use(authRoutes);
 
-app.get("/signup", async(req, res) =>{
+app.get("/signup", ensureNotAuthenticated, async(req, res) =>{
 
     res.render("signup");
 })
 
-app.get("/home", async (req, res) => {
+app.get("/home", ensureAuthenticated, async (req, res) => {
     let detailId: any = req.query.id ?? "";
     let sortName: any = req.query.sortName ?? "";
     let sortAge: any = req.query.sortAge ?? "";
