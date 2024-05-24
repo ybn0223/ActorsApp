@@ -20,7 +20,7 @@ app.set("port", process.env.PORT || 10000);
 async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
     return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
 }
-
+console.log("test");
 function sortOrder(sortParam: string): number {
     return sortParam.toLowerCase() === "asc" ? 1 : -1;
 }
