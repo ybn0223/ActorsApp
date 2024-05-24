@@ -23,16 +23,17 @@ router.post('/register', async (req, res) =>{
 
 router.post('/login', async (req, res) => {
     const {username, password} = req.body;
+    let wrongCredentials = true;
 
     try {
         const user = await usersCollection.findOne({ username });
         if (!user) {
-          return res.status(400).send('Invalid email or password');
+          return res.render('login', { wrongCredentials});
         }
     
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          return res.status(400).send('Invalid email or password');
+          return res.render('login', { wrongCredentials});
         }
     
         req.session.user = user;

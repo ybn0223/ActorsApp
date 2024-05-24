@@ -17,7 +17,9 @@
                     <form action="/logout" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-warning me-2">Logout</button>
                       </form>
-                    <button id="seedDatabase" class="btn btn-warning">Clear and Seed Database</button>
+                      <% if (user.isAdmin) { %>
+                        <button id="seedDatabase" class="btn btn-warning">Clear and Seed Database</button>
+                     <% } %>
                 </div>
                 <!-- Existing table and content here -->
                 <table class="table">
@@ -53,8 +55,10 @@
                                 <td class="text-center align-middle"><%= actor.relationshipStatus %></td>
                                 <td class="text-center align-middle">
                                     <a style="cursor: pointer;" class="view" data-bs-toggle="modal" data-bs-target="#detailModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE417;</i></a>
-                                    <a style="cursor: pointer;" class="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE254;</i></a>
-                                    <a style="cursor: pointer;" class="delete" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE872;</i></a>
+                                    <% if (user.isAdmin) { %>
+                                        <a style="cursor: pointer;" class="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE254;</i></a>
+                                        <a style="cursor: pointer;" class="delete" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE872;</i></a>
+                                   <% } %>
                                 </td>
                             </tr>  
                         <% } %>    
@@ -80,8 +84,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit Modal -->
+    <% if (user.isAdmin) { %>
+        <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -127,6 +131,7 @@
             </div>
         </div>
     </div>
+    <% } %>
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {

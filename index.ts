@@ -48,8 +48,9 @@ function sortOrder(sortParam: string): number {
 
 // verander package.json start script naar     "start": "tsc && node index.js "
 app.get("/", ensureNotAuthenticated, async (req, res) => {
+    let wrongCredentials = false;
 
-    res.render("login");
+    res.render("login", {wrongCredentials});
 })
 
 app.use(authRoutes);
@@ -87,14 +88,12 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
         actorDetails = await ActorsCollection.findOne({ _id: new ObjectId(detailId) });
     }
 
-    let user = req.session.user ?? null;
-    if (user === null) {
-        res.redirect("/")
-    }
+    let user = req.session.user;
 
     res.render("home", {
         actors: sortedActors,
-        actorDetails
+        actorDetails,
+        user
     });
 });
 

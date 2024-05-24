@@ -29,7 +29,9 @@
                           <input type="password" name="password" id="password" class="form-control form-control-lg bg-dark text-white" />
                           <label class="form-label" for="password">Password</label>
                         </div>
-                        <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                        <% if (wrongCredentials) { %>
+                          <p style="color: red;">*Wrong username and/or password</p>
+                       <% } %>
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                       </form>
                     </div>
