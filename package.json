@@ -5,9 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest",
-    "start": "tsc && node index.js ",
-    "nodemon": "nodemon index.ts"
-
+    "start": "tsc && node index.js "
   },
   "author": "",
   "license": "ISC",
