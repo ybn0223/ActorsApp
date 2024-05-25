@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Actors</title>
     <%- include('partials/head') %>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container" id="tableContainer" style="background-color: rgba(255, 255, 255, 0.45);">
@@ -21,32 +23,45 @@
                     <% } %>
                 </div>
 
-                <!-- Field selection form -->
-                <form id="fieldSelectionForm" method="GET" action="/home">
-                    <h3>Select fields to display:</h3>
-                    <label>
-                        <input type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>> Picture
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>> Name
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>> Age
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>> Birthdate
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>> Nationality
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>> Active
-                    </label>
-                    <label>
-                        <input type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>> Relationship Status
-                    </label>
-                    <button type="submit">Update</button>
-                </form>
+                <!-- Field selection dropdown -->
+                <div class="dropdown mb-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select fields to display
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <form id="fieldSelectionForm" method="GET" action="/home" class="px-3 py-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>>
+                                <label class="form-check-label">Picture</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>>
+                                <label class="form-check-label">Name</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>>
+                                <label class="form-check-label">Age</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>>
+                                <label class="form-check-label">Birthdate</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>>
+                                <label class="form-check-label">Nationality</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>>
+                                <label class="form-check-label">Active</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>>
+                                <label class="form-check-label">Relationship Status</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Update</button>
+                        </form>
+                    </div>
+                </div>
 
                 <!-- Table -->
                 <table class="table">
@@ -200,6 +215,9 @@
     </div>
     <% } %>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const detailModal = document.getElementById('detailModal');
