@@ -8,14 +8,13 @@ import session from "express-session";
 import authRoutes from "./routes/auth";
 import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
-
 dotenv.config();
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 const store = new MongoDBStore({
     uri: process.env.MONGODB_URI || "mongodb://localhost:27017/lego",
     collection: 'sessions'
-  });
+});
 
 store.on('error', function(error : any) {
     console.error(error);
@@ -34,19 +33,18 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: store
-  }));
+}));
 
 app.set("port", process.env.PORT || 10000);
 
-async function sortActors(sortField: any, sortOrder: any): Promise<Actor[]> {
-    return await ActorsCollection.find<Actor>({}).sort({ [sortField]: sortOrder }).toArray();
+async function sortActors(sortField: any, sortOrder: any, projection: any): Promise<Actor[]> {
+    return await ActorsCollection.find<Actor>({}, { projection }).sort({ [sortField]: sortOrder }).toArray();
 }
 
 function sortOrder(sortParam: string): number {
     return sortParam.toLowerCase() === "asc" ? 1 : -1;
 }
 
-// verander package.json start script naar     "start": "tsc && node index.js "
 app.get("/", ensureNotAuthenticated, async (req, res) => {
     let wrongCredentials = false;
 
@@ -99,17 +97,17 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
     let actorDetails;
 
     if (sortName) {
-        sortedActors = await sortActors("name", sortOrder(sortName));
+        sortedActors = await sortActors("name", sortOrder(sortName), projection);
     } else if (sortAge) {
-        sortedActors = await sortActors("age", sortOrder(sortAge));
+        sortedActors = await sortActors("age", sortOrder(sortAge), projection);
     } else if (sortBirthdate) {
-        sortedActors = await sortActors("birthdate", sortOrder(sortBirthdate));
+        sortedActors = await sortActors("birthdate", sortOrder(sortBirthdate), projection);
     } else if (sortNationality) {
-        sortedActors = await sortActors("nationality", sortOrder(sortName));
+        sortedActors = await sortActors("nationality", sortOrder(sortNationality), projection);
     } else if (sortIsActive) {
-        sortedActors = await sortActors("isActive", sortOrder(sortIsActive));
+        sortedActors = await sortActors("isActive", sortOrder(sortIsActive), projection);
     } else if (sortRelationshipStatus) {
-        sortedActors = await sortActors("relationshipStatus", sortOrder(sortRelationshipStatus));
+        sortedActors = await sortActors("relationshipStatus", sortOrder(sortRelationshipStatus), projection);
     } else if (detailId) {
         actorDetails = await ActorsCollection.findOne(
             { _id: new ObjectId(detailId) },
@@ -157,29 +155,23 @@ app.get('/editActor/:id', async (req, res) => {
 
 app.post('/saveEditActor', async (req, res) => {
     try {
-        // Extract data from the request body
         const { id, name, description, age, nationality, isActive, birthdate, relationshipStatus, hobbies, extraInfo } = req.body;
 
-        // Validate the input
         if (!ObjectId.isValid(id)) {
             return res.status(400).send('Invalid actor ID.');
         }
 
-        // Parse and validate age
         const parsedAge = Number(age);
         if (isNaN(parsedAge)) {
             return res.status(400).send('Invalid age type.');
         }
 
-        // Parse and validate isActive
         const parsedIsActive = (isActive === 'true');
 
-        // Validate basic string fields
         if (typeof name !== 'string' || typeof description !== 'string' || typeof nationality !== 'string' || typeof relationshipStatus !== 'string' || typeof birthdate !== 'string') {
             return res.status(400).send('Invalid input types for basic fields.');
         }
 
-        // Validate extraInfo
         const { pets, children, favoriteDish, awards, netWorth, hasOscar, id: extraInfoId } = extraInfo;
 
         if (isNaN(Number(extraInfoId))) {
@@ -194,16 +186,13 @@ app.post('/saveEditActor', async (req, res) => {
             return res.status(400).send('Invalid extraInfo properties.');
         }
 
-        // Parse the comma-separated strings into arrays
         const parsedHobbies = hobbies.split(',').map((hobby: string) => hobby.trim());
         const parsedPets = pets.split(',').map((pet: string) => pet.trim());
         const parsedChildren = children.split(',').map((child: string) => child.trim());
         const parsedAwards = awards.split(',').map((award: string) => award.trim());
 
-        // Parse and validate hasOscar
         const parsedHasOscar = (hasOscar === 'true');
 
-        // Update actor information in the database
         const result = await ActorsCollection.updateOne(
             { _id: new ObjectId(id) },
             {
@@ -239,8 +228,6 @@ app.post('/saveEditActor', async (req, res) => {
         res.status(500).send('Internal server error.');
     }
 });
-
-
 
 app.delete('/deleteActor/:id', async (req, res) => {
     try {

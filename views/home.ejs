@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
     <title>Actors</title>
-
     <%- include('partials/head') %>
 </head>
 <body>
     <div class="container" id="tableContainer" style="background-color: rgba(255, 255, 255, 0.45);">
         <div class="table-responsive">
-            <div class="table-wrapper">			
+            <div class="table-wrapper">
                 <div class="table-title d-flex justify-content-between align-items-center">
                     <h2 class="text-center align-middle"><b>Actors</b></h2>
                     <form action="/logout" method="POST" style="display: inline;">
@@ -56,38 +55,38 @@
                             <% if (selectedFields.includes("profileImageUrl")) { %><th class="text-center align-middle">Picture</th><% } %>
                             <% if (selectedFields.includes("name")) { %>
                                 <th class="text-center align-middle">Name 
-                                    <a href="/home/?sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("age")) { %>
                                 <th class="text-center align-middle">Age  
-                                    <a href="/home/?sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("birthdate")) { %>
                                 <th class="text-center align-middle">Birthdate 
-                                    <a href="/home/?sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("nationality")) { %>
                                 <th class="text-center align-middle">Nationality 
-                                    <a href="/home/?sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("isActive")) { %>
                                 <th class="text-center align-middle">Active 
-                                    <a href="/home/?sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("relationshipStatus")) { %>
                                 <th class="text-center align-middle">Relationship Status 
-                                    <a href="/home/?sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <th class="text-center align-middle">Actions</th>

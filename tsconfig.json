@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./session.d.ts"],
+    "typeRoots": ["./node_modules/@types", "./session.d.ts", "bcrypt.d.ts"],
 
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
