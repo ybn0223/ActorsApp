@@ -56,8 +56,9 @@ app.get("/", ensureNotAuthenticated, async (req, res) => {
 app.use(authRoutes);
 
 app.get("/signup", ensureNotAuthenticated, async(req, res) =>{
+    let userAlreadyExists = false;
 
-    res.render("signup");
+    res.render("signup",{userAlreadyExists});
 })
 
 app.get("/home", ensureAuthenticated, async (req, res) => {
