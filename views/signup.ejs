@@ -35,7 +35,9 @@
                             <input type="password" name="password2" id="password2" class="form-control form-control-lg bg-dark text-white" required />
                             <label class="form-label" for="password2">Confirm Password</label>
                         </div>
-                        <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                        <% if (userAlreadyExists) { %>
+                          <p style="color: red;">*Username already taken</p>
+                       <% } %>
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Create account</button>
                     </form>
                       </div>

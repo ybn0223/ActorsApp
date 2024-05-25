@@ -88,7 +88,6 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
         actorDetails = await ActorsCollection.findOne({ _id: new ObjectId(detailId) });
     }
 
-    console.log(req.query.id);
     let user = req.session.user;
 
     res.render("home", {
