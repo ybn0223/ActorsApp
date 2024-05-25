@@ -70,8 +70,33 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
     let sortIsActive: any = req.query.sortIsActive ?? "";
     let sortRelationshipStatus: any = req.query.sortRelationshipStatus ?? "";
 
-    var sortedActors: Actor[] = await Actors();
-    var actorDetails;
+    const selectedFieldsParam = req.query.fields;
+
+    let selectedFields: string[] = [
+        "profileImageUrl",
+        "name",
+        "age",
+        "birthdate",
+        "nationality",
+        "isActive",
+        "relationshipStatus"
+    ];
+
+    if (selectedFieldsParam) {
+        if (Array.isArray(selectedFieldsParam)) {
+            selectedFields = selectedFieldsParam as string[];
+        } else if (typeof selectedFieldsParam === 'string') {
+            selectedFields = [selectedFieldsParam];
+        }
+    }
+
+    const projection: any = {};
+    selectedFields.forEach(field => {
+        projection[field] = 1;
+    });
+
+    let sortedActors: Actor[] = [];
+    let actorDetails;
 
     if (sortName) {
         sortedActors = await sortActors("name", sortOrder(sortName));
@@ -86,7 +111,12 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
     } else if (sortRelationshipStatus) {
         sortedActors = await sortActors("relationshipStatus", sortOrder(sortRelationshipStatus));
     } else if (detailId) {
-        actorDetails = await ActorsCollection.findOne({ _id: new ObjectId(detailId) });
+        actorDetails = await ActorsCollection.findOne(
+            { _id: new ObjectId(detailId) },
+            { projection }
+        );
+    } else {
+        sortedActors = await ActorsCollection.find<Actor>({}, { projection }).toArray();
     }
 
     let user = req.session.user;
@@ -94,7 +124,8 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
     res.render("home", {
         actors: sortedActors,
         actorDetails,
-        user
+        user,
+        selectedFields
     });
 });
 
