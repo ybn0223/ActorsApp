@@ -41,8 +41,8 @@ async function sortActors(sortField: any, sortOrder: any, projection: any): Prom
     return await ActorsCollection.find<Actor>({}, { projection }).sort({ [sortField]: sortOrder }).toArray();
 }
 
-function sortOrder(sortParam: string): number {
-    return sortParam.toLowerCase() === "asc" ? 1 : -1;
+function sortOrder(sortParam: string): "asc" | "desc" {
+    return sortParam.toLowerCase() === "asc" ? "asc" : "desc";
 }
 
 app.get("/", ensureNotAuthenticated, async (req, res) => {
@@ -67,18 +67,10 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
     let sortNationality: any = req.query.sortNationality ?? "";
     let sortIsActive: any = req.query.sortIsActive ?? "";
     let sortRelationshipStatus: any = req.query.sortRelationshipStatus ?? "";
-
+    let name: any = req.query.name ?? "";
     const selectedFieldsParam = req.query.fields;
-
-    let selectedFields: string[] = [
-        "profileImageUrl",
-        "name",
-        "age",
-        "birthdate",
-        "nationality",
-        "isActive",
-        "relationshipStatus"
-    ];
+    
+    let selectedFields: string[] = [];
 
     if (selectedFieldsParam) {
         if (Array.isArray(selectedFieldsParam)) {
@@ -86,6 +78,16 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
         } else if (typeof selectedFieldsParam === 'string') {
             selectedFields = [selectedFieldsParam];
         }
+    } else {
+        selectedFields = [
+            "profileImageUrl",
+            "name",
+            "age",
+            "birthdate",
+            "nationality",
+            "isActive",
+            "relationshipStatus"
+        ];
     }
 
     const projection: any = {};
@@ -123,7 +125,14 @@ app.get("/home", ensureAuthenticated, async (req, res) => {
         actors: sortedActors,
         actorDetails,
         user,
-        selectedFields
+        selectedFields,
+        sortName,
+        sortAge,
+        sortBirthdate,
+        sortNationality,
+        sortIsActive,
+        sortRelationshipStatus,
+        name
     });
 });
 
@@ -258,6 +267,81 @@ app.post('/seedDatabase', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error.' });
     }
     res.json({ success: true, message: 'Database seeded successfully.' });
+});
+
+app.get('/search', ensureAuthenticated, async (req, res) => {
+    const searchName = req.query.name as string;
+    let sortName: any = req.query.sortName ?? "";
+    let sortAge: any = req.query.sortAge ?? "";
+    let sortBirthdate: any = req.query.sortBirthdate ?? "";
+    let sortNationality: any = req.query.sortNationality ?? "";
+    let sortIsActive: any = req.query.sortIsActive ?? "";
+    let sortRelationshipStatus: any = req.query.sortRelationshipStatus ?? "";
+    const selectedFieldsParam = req.query.fields;
+
+    let selectedFields: string[] = [];
+
+    if (selectedFieldsParam) {
+        if (Array.isArray(selectedFieldsParam)) {
+            selectedFields = selectedFieldsParam as string[];
+        } else if (typeof selectedFieldsParam === 'string') {
+            selectedFields = [selectedFieldsParam];
+        }
+    } else {
+        selectedFields = [
+            "profileImageUrl",
+            "name",
+            "age",
+            "birthdate",
+            "nationality",
+            "isActive",
+            "relationshipStatus"
+        ];
+    }
+
+    const projection: any = {};
+    selectedFields.forEach(field => {
+        projection[field] = 1;
+    });
+
+    let sortedActors: Actor[] = [];
+    const searchQuery = { name: new RegExp(searchName, 'i') };
+
+    try {
+        if (sortName) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ name: sortOrder(sortName) }).toArray();
+        } else if (sortAge) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ age: sortOrder(sortAge) }).toArray();
+        } else if (sortBirthdate) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ birthdate: sortOrder(sortBirthdate) }).toArray();
+        } else if (sortNationality) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ nationality: sortOrder(sortNationality) }).toArray();
+        } else if (sortIsActive) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ isActive: sortOrder(sortIsActive) }).toArray();
+        } else if (sortRelationshipStatus) {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).sort({ relationshipStatus: sortOrder(sortRelationshipStatus) }).toArray();
+        } else {
+            sortedActors = await ActorsCollection.find<Actor>(searchQuery, { projection }).toArray();
+        }
+
+        let user = req.session.user;
+
+        res.render('home', {
+            actors: sortedActors,
+            user,
+            selectedFields,
+            sortName,
+            sortAge,
+            sortBirthdate,
+            sortNationality,
+            sortIsActive,
+            sortRelationshipStatus,
+            name: searchName
+        });
+    } catch (error) {
+        console.error('Error fetching actors:', error);
+        res.status(500).send('Server Error');
+    }
 });
 
 app.listen(app.get("port"), async () => {

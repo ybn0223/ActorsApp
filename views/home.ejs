@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Actors</title>
     <%- include('partials/head') %>
 </head>
@@ -13,53 +13,87 @@
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title d-flex justify-content-between align-items-center">
-                    <h2 class="text-center align-middle"><b>Actors</b></h2>
-                    <form action="/logout" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-warning me-2">Logout</button>
-                    </form>
+                    <a href="/home" style="text-decoration: none;"><h2 class="text-center align-middle"><b>Actors</b></h2></a>
                     <% if (user.isAdmin) { %>
                         <button id="seedDatabase" class="btn btn-warning">Clear and Seed Database</button>
                     <% } %>
-                </div>
+                    <!-- Search form -->
+                    <form id="searchForm" class="d-flex" method="GET" action="/search">
+                        <input class="form-control me-2" type="search" name="name" placeholder="Search by name" aria-label="Search" value="<%= name %>">
+                        <input type="hidden" name="sortName" value="<%= sortName %>">
+                        <input type="hidden" name="sortAge" value="<%= sortAge %>">
+                        <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
+                        <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
+                        <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
+                        <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
+                        <% selectedFields.forEach(field => { %>
+                            <input type="hidden" name="fields" value="<%= field %>">
+                        <% }); %>
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
 
-                <!-- Field selection dropdown -->
-                <div class="dropdown mb-3">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select fields to display
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <form id="fieldSelectionForm" method="GET" action="/home" class="px-3 py-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>>
-                                <label class="form-check-label">Picture</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>>
-                                <label class="form-check-label">Name</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>>
-                                <label class="form-check-label">Age</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>>
-                                <label class="form-check-label">Birthdate</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>>
-                                <label class="form-check-label">Nationality</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>>
-                                <label class="form-check-label">Active</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>>
-                                <label class="form-check-label">Relationship Status</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-2">Update</button>
-                        </form>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <form id="fieldSelectionForm" method="GET" action="/home" class="px-3 py-2">
+                                <input type="hidden" name="sortName" value="<%= sortName %>">
+                                <input type="hidden" name="sortAge" value="<%= sortAge %>">
+                                <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
+                                <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
+                                <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
+                                <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
+                                <input type="hidden" name="name" value="<%= name %>">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>>
+                                        Picture
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>>
+                                        Name
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>>
+                                        Age
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>>
+                                        Birthdate
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>>
+                                        Nationality
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>>
+                                        Active
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>>
+                                        Relationship Status
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Update</button>
+                            </form>
+                        </div>
                     </div>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-primary me-2">Logout</button>
+                    </form>
                 </div>
 
                 <!-- Table -->
@@ -69,38 +103,38 @@
                             <% if (selectedFields.includes("profileImageUrl")) { %><th class="text-center align-middle">Picture</th><% } %>
                             <% if (selectedFields.includes("name")) { %>
                                 <th class="text-center align-middle">Name 
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("age")) { %>
                                 <th class="text-center align-middle">Age  
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("birthdate")) { %>
                                 <th class="text-center align-middle">Birthdate 
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("nationality")) { %>
                                 <th class="text-center align-middle">Nationality 
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("isActive")) { %>
                                 <th class="text-center align-middle">Active 
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <% if (selectedFields.includes("relationshipStatus")) { %>
                                 <th class="text-center align-middle">Relationship Status 
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
-                                    <a href="/home/?<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
                                 </th>
                             <% } %>
                             <th class="text-center align-middle">Actions</th>
@@ -224,6 +258,13 @@
             const successEditModal = document.getElementById('successEditModal');
             const deleteModal = document.getElementById('deleteModal');
             let actorIdToDelete;
+
+            // Prevent dropdown menu from closing when clicking inside the form
+            document.querySelectorAll('.dropdown-menu').forEach(function(dropdown) {
+                dropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
 
             detailModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
