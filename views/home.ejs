@@ -16,49 +16,117 @@
                     <h2 class="text-center align-middle"><b>Actors</b></h2>
                     <form action="/logout" method="POST" style="display: inline;">
                         <button type="submit" class="btn btn-warning me-2">Logout</button>
-                      </form>
-                      <% if (user.isAdmin) { %>
+                    </form>
+                    <% if (user.isAdmin) { %>
                         <button id="seedDatabase" class="btn btn-warning">Clear and Seed Database</button>
-                     <% } %>
+                    <% } %>
                 </div>
-                <!-- Existing table and content here -->
+
+                <!-- Field selection form -->
+                <form id="fieldSelectionForm" method="GET" action="/home">
+                    <h3>Select fields to display:</h3>
+                    <label>
+                        <input type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>> Picture
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>> Name
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>> Age
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>> Birthdate
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>> Nationality
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>> Active
+                    </label>
+                    <label>
+                        <input type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>> Relationship Status
+                    </label>
+                    <button type="submit">Update</button>
+                </form>
+
+                <!-- Table -->
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center align-middle">Picture</th>
-                            <th class="text-center align-middle">Name <a href="/home/?sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
-                            <th class="text-center align-middle">Age  <a href="/home/?sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
-                            <th class="text-center align-middle">Birthdate <a href="/home/?sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
-                            <th class="text-center align-middle">Nationality <a href="/home/?sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
-                            <th class="text-center align-middle">Active <a href="/home/?sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
-                            <th class="text-center align-middle">Relationship Status <a href="/home/?sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a><a href="/home/?sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a></th>
+                            <% if (selectedFields.includes("profileImageUrl")) { %><th class="text-center align-middle">Picture</th><% } %>
+                            <% if (selectedFields.includes("name")) { %>
+                                <th class="text-center align-middle">Name 
+                                    <a href="/home/?sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortName=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
+                            <% if (selectedFields.includes("age")) { %>
+                                <th class="text-center align-middle">Age  
+                                    <a href="/home/?sortAge=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortAge=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
+                            <% if (selectedFields.includes("birthdate")) { %>
+                                <th class="text-center align-middle">Birthdate 
+                                    <a href="/home/?sortBirthdate=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortBirthdate=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
+                            <% if (selectedFields.includes("nationality")) { %>
+                                <th class="text-center align-middle">Nationality 
+                                    <a href="/home/?sortNationality=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortNationality=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
+                            <% if (selectedFields.includes("isActive")) { %>
+                                <th class="text-center align-middle">Active 
+                                    <a href="/home/?sortIsActive=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortIsActive=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
+                            <% if (selectedFields.includes("relationshipStatus")) { %>
+                                <th class="text-center align-middle">Relationship Status 
+                                    <a href="/home/?sortRelationshipStatus=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                    <a href="/home/?sortRelationshipStatus=desc" class="fa fa-sort-down" style="color: black; vertical-align: middle; text-decoration: none;"></a>
+                                </th>
+                            <% } %>
                             <th class="text-center align-middle">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (const actor of actors) { %>
                             <tr>
-                                <td class="text-center align-middle"><img class="img-fluid rounded-circle" src="<%= actor.profileImageUrl %>" style="width: 10rem;" alt="Avatar" /></td>
-                                <td class="text-center align-middle"><%= actor.name %></td>
-                                <td class="text-center align-middle"><%= actor.age %></td>
-                                <td class="text-center align-middle"><%= actor.birthdate %></td>
-                                <td class="text-center align-middle"><%= actor.nationality %></td>
-                                <% if (actor.isActive) { %>
-                                    <td class="text-center align-middle"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                        <circle cx="8" cy="8" r="8" style="color: green;"/>
-                                      </svg> </td>
-                               <% } else { %>
-                                    <td class="text-center align-middle"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                        <circle cx="8" cy="8" r="8" style="color: red;"/>
-                                      </svg> </td>
+                                <% if (selectedFields.includes("profileImageUrl")) { %>
+                                    <td class="text-center align-middle">
+                                        <img class="img-fluid rounded-circle" src="<%= actor.profileImageUrl %>" style="width: 10rem;" alt="Avatar" />
+                                    </td>
                                 <% } %>
-                                <td class="text-center align-middle"><%= actor.relationshipStatus %></td>
+                                <% if (selectedFields.includes("name")) { %><td class="text-center align-middle"><%= actor.name %></td><% } %>
+                                <% if (selectedFields.includes("age")) { %><td class="text-center align-middle"><%= actor.age %></td><% } %>
+                                <% if (selectedFields.includes("birthdate")) { %><td class="text-center align-middle"><%= actor.birthdate %></td><% } %>
+                                <% if (selectedFields.includes("nationality")) { %><td class="text-center align-middle"><%= actor.nationality %></td><% } %>
+                                <% if (selectedFields.includes("isActive")) { %>
+                                    <% if (actor.isActive) { %>
+                                        <td class="text-center align-middle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" style="color: green;"/>
+                                            </svg>
+                                        </td>
+                                    <% } else { %>
+                                        <td class="text-center align-middle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8" style="color: red;"/>
+                                            </svg>
+                                        </td>
+                                    <% } %>
+                                <% } %>
+                                <% if (selectedFields.includes("relationshipStatus")) { %><td class="text-center align-middle"><%= actor.relationshipStatus %></td><% } %>
                                 <td class="text-center align-middle">
                                     <a style="cursor: pointer;" class="view" data-bs-toggle="modal" data-bs-target="#detailModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE417;</i></a>
                                     <% if (user.isAdmin) { %>
                                         <a style="cursor: pointer;" class="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE254;</i></a>
                                         <a style="cursor: pointer;" class="delete" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE872;</i></a>
-                                   <% } %>
+                                    <% } %>
                                 </td>
                             </tr>  
                         <% } %>    
