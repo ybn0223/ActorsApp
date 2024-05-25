@@ -13,13 +13,14 @@ const router = Router();
 
 router.post('/register', async (req, res) =>{
     const {username, password, password2} = req.body;
+    const existingUser = await usersCollection.findOne({ username });
+
+    if (existingUser) {
+      return res.render('signup', {userAlreadyExists: true});
+    }
     const result = await registerUser(username, password, false);
-    const user = await usersCollection.findOne({ username });
-    let userAlreadyExists = true;
     if (result === "User registered successfully") {
-        return res.redirect("/login");
-    } else if(user){
-      res.render("register",{userAlreadyExists});
+        return res.redirect("/");
     }else{
         return res.status(400).send(result);
     }

@@ -38,10 +38,6 @@ export async function getActorById(id: string) {
 
 export async function registerUser(username: string, password: string, isAdmin: boolean) : Promise<string>{
     try {
-        const userExists = await usersCollection.findOne({username});
-        if (userExists) {
-            return 'Username already taken';
-        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
