@@ -23,7 +23,7 @@
        <% } %>        
       <% } %>
     <% } else { %>
-      <span>Geen</span>
+      <span>None</span>
     <% } %>
   </p>  <p><strong>Pets:</strong>
     <% if (actor.extraInfo.pets && actor.extraInfo.pets.length > 0) { %>
@@ -35,7 +35,7 @@
        <% } %>        
       <% } %>
     <% } else { %>
-      <span>Geen</span>
+      <span>None</span>
     <% } %>
   </p>
   <p><strong>Children:</strong>
@@ -48,11 +48,11 @@
        <% } %>        
       <% } %>
     <% } else { %>
-      <span>Geen</span>
+      <span>None</span>
     <% } %>
   </p>
   <p><strong>Favorite dish:</strong> <%= actor.extraInfo.favoriteDish %></p>
-  <p><strong>Children:</strong>
+  <p><strong>Awards:</strong>
     <% if (actor.extraInfo.awards && actor.extraInfo.awards.length > 0) { %>
       <% for (let i = 0; i < actor.extraInfo.awards.length; i++) { %>
         <% if (i < actor.extraInfo.awards.length-1) { %>
@@ -62,7 +62,7 @@
        <% } %>        
       <% } %>
     <% } else { %>
-      <span>Geen</span>
+      <span>None</span>
     <% } %>
   </p>
     <p><strong>Has Oscar:</strong>

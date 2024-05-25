@@ -153,3 +153,6 @@ table.table td i {
 .modal-dialog {
   z-index: 1050 !important;
 }
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
