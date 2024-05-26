@@ -9,99 +9,101 @@
     <%- include('partials/head') %>
 </head>
 <body>
-    <div class="container" id="tableContainer" style="background-color: rgba(255, 255, 255, 0.45);">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title d-flex justify-content-between align-items-center">
-                    <a href="/home" style="text-decoration: none;"><h2 class="text-center align-middle"><b>Actors</b></h2></a>
-                    <% if (user.isAdmin) { %>
-                        <button id="seedDatabase" class="btn btn-warning">Clear and Seed Database</button>
-                    <% } %>
-                    <!-- Search form -->
-                    <form id="searchForm" class="d-flex" method="GET" action="/search">
-                        <input class="form-control me-2" type="search" name="name" placeholder="Search by name" aria-label="Search" value="<%= name %>">
-                        <input type="hidden" name="sortName" value="<%= sortName %>">
-                        <input type="hidden" name="sortAge" value="<%= sortAge %>">
-                        <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
-                        <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
-                        <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
-                        <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
-                        <% selectedFields.forEach(field => { %>
-                            <input type="hidden" name="fields" value="<%= field %>">
-                        <% }); %>
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </form>
+    <div class="container" id="tableContainer">
+        <div class="table-wrapper">
+            <div class="table-title d-flex justify-content-between align-items-center flex-wrap">
+                <a href="/home" style="text-decoration: none;"><h2 class="text-center align-middle"><b>Actors</b></h2></a>
+                <% if (user.isAdmin) { %>
+                    <button id="seedDatabase" class="btn btn-warning mb-2">Clear and Seed Database</button>
+                <% } %>
+                <!-- Search form -->
+                <form id="searchForm" class="d-flex mb-2" method="GET" action="/search">
+                    <input class="form-control me-2" type="search" name="name" placeholder="Search by name" aria-label="Search" value="<%= name %>">
+                    <input type="hidden" name="sortName" value="<%= sortName %>">
+                    <input type="hidden" name="sortAge" value="<%= sortAge %>">
+                    <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
+                    <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
+                    <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
+                    <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
+                    <% selectedFields.forEach(field => { %>
+                        <input type="hidden" name="fields" value="<%= field %>">
+                    <% }); %>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
 
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <div class="dropdown-menu overflow-y-hidden" aria-labelledby="dropdownMenuButton">
-                            <form id="fieldSelectionForm" method="GET" action="/search" class="px-3 py-2">
-                                <input type="hidden" name="sortName" value="<%= sortName %>">
-                                <input type="hidden" name="sortAge" value="<%= sortAge %>">
-                                <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
-                                <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
-                                <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
-                                <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
-                                <input type="hidden" name="name" value="<%= name %>">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>>
-                                        Picture
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>>
-                                        Name
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>>
-                                        Age
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>>
-                                        Birthdate
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>>
-                                        Nationality
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>>
-                                        Active
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>>
-                                        Relationship Status
-                                    </label>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-2">Update</button>
-                            </form>
-                        </div>
+                <div class="dropdown mb-2">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <div class="dropdown-menu overflow-y-hidden" aria-labelledby="dropdownMenuButton">
+                        <form id="fieldSelectionForm" method="GET" action="/search" class="px-3 py-2">
+                            <input type="hidden" name="sortName" value="<%= sortName %>">
+                            <input type="hidden" name="sortAge" value="<%= sortAge %>">
+                            <input type="hidden" name="sortBirthdate" value="<%= sortBirthdate %>">
+                            <input type="hidden" name="sortNationality" value="<%= sortNationality %>">
+                            <input type="hidden" name="sortIsActive" value="<%= sortIsActive %>">
+                            <input type="hidden" name="sortRelationshipStatus" value="<%= sortRelationshipStatus %>">
+                            <input type="hidden" name="name" value="<%= name %>">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="profileImageUrl" <%= selectedFields.includes("profileImageUrl") ? "checked" : "" %>>
+                                    Picture
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="name" <%= selectedFields.includes("name") ? "checked" : "" %>>
+                                    Name
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="age" <%= selectedFields.includes("age") ? "checked" : "" %>>
+                                    Age
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="birthdate" <%= selectedFields.includes("birthdate") ? "checked" : "" %>>
+                                    Birthdate
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="nationality" <%= selectedFields.includes("nationality") ? "checked" : "" %>>
+                                    Nationality
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="isActive" <%= selectedFields.includes("isActive") ? "checked" : "" %>>
+                                    Active
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="fields" value="relationshipStatus" <%= selectedFields.includes("relationshipStatus") ? "checked" : "" %>>
+                                    Relationship Status
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Update</button>
+                        </form>
                     </div>
-                    <form action="/logout" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-primary me-2">Logout</button>
-                    </form>
                 </div>
+                <form action="/logout" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-primary mb-2">Logout</button>
+                </form>
+            </div>
 
-                <!-- Table -->
-                <% if (actors.length > 0) { %>
+            <!-- Table -->
+            <% if (actors.length > 0) { %>
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <% if (selectedFields.includes("profileImageUrl")) { %><th class="text-center align-middle">Picture</th><% } %>
+                            <% if (selectedFields.includes("profileImageUrl")) { %>
+                                <th class="text-center align-middle">Picture</th>
+                            <% } %>
                             <% if (selectedFields.includes("name")) { %>
                                 <th class="text-center align-middle">Name 
                                     <a href="/search?name=<%= name %>&<%= 'fields=' + selectedFields.join('&fields=') %>&sortName=asc" class="fa fa-sort-up" style="color: black; vertical-align: middle; text-decoration: none;"></a>
@@ -149,10 +151,18 @@
                                         <img class="img-fluid rounded-circle" src="<%= actor.profileImageUrl %>" style="width: 10rem;" alt="Avatar" />
                                     </td>
                                 <% } %>
-                                <% if (selectedFields.includes("name")) { %><td class="text-center align-middle"><%= actor.name %></td><% } %>
-                                <% if (selectedFields.includes("age")) { %><td class="text-center align-middle"><%= actor.age %></td><% } %>
-                                <% if (selectedFields.includes("birthdate")) { %><td class="text-center align-middle"><%= actor.birthdate %></td><% } %>
-                                <% if (selectedFields.includes("nationality")) { %><td class="text-center align-middle"><%= actor.nationality %></td><% } %>
+                                <% if (selectedFields.includes("name")) { %>
+                                    <td class="text-center align-middle"><%= actor.name %></td>
+                                <% } %>
+                                <% if (selectedFields.includes("age")) { %>
+                                    <td class="text-center align-middle"><%= actor.age %></td>
+                                <% } %>
+                                <% if (selectedFields.includes("birthdate")) { %>
+                                    <td class="text-center align-middle"><%= actor.birthdate %></td>
+                                <% } %>
+                                <% if (selectedFields.includes("nationality")) { %>
+                                    <td class="text-center align-middle"><%= actor.nationality %></td>
+                                <% } %>
                                 <% if (selectedFields.includes("isActive")) { %>
                                     <% if (actor.isActive) { %>
                                         <td class="text-center align-middle">
@@ -168,7 +178,9 @@
                                         </td>
                                     <% } %>
                                 <% } %>
-                                <% if (selectedFields.includes("relationshipStatus")) { %><td class="text-center align-middle"><%= actor.relationshipStatus %></td><% } %>
+                                <% if (selectedFields.includes("relationshipStatus")) { %>
+                                    <td class="text-center align-middle"><%= actor.relationshipStatus %></td>
+                                <% } %>
                                 <td class="text-center align-middle">
                                     <a style="cursor: pointer;" class="view" data-bs-toggle="modal" data-bs-target="#detailModal" data-id="<%= actor._id %>" data-bs-backdrop="false"><i class="material-icons">&#xE417;</i></a>
                                     <% if (user.isAdmin) { %>
@@ -180,10 +192,10 @@
                         <% } %>    
                     </tbody>
                 </table>
-                <% } else { %>
-                    <p class="text-center"><b>No results found</b></p>
-                <% } %>
             </div>
+            <% } else { %>
+                <p class="text-center"><b>No results found</b></p>
+            <% } %>
         </div>        
     </div> 
 
